@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Writing Mentor giúp phân tích, sửa lỗi và cải thiện bài viết tiếng Anh.">
+  <title>AI Writing Mentor — Trợ lý luyện viết tiếng Anh</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="AI Writing Mentor trang chủ">
+        <span class="brand-icon">✍️</span>
+        <span><strong>AI Writing Mentor</strong><small>English writing assistant</small></span>
+      </a>
+      <span class="status-pill"><span class="status-dot"></span> Trợ lý luyện viết</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">WRITE BETTER WITH AI</div>
+        <h1>Viết tiếng Anh <span>tự tin hơn.</span></h1>
+        <p>Phân tích bài viết, sửa lỗi ngữ pháp, nâng cấp từ vựng và hiểu vì sao cần sửa — tất cả trong một nơi.</p>
+      </section>
+
+      <div class="workspace">
+        <aside class="settings-panel panel">
+          <div class="panel-heading">
+            <div class="heading-icon">⚙️</div>
+            <div><h2>Cấu hình bài viết</h2><p>Tùy chỉnh mục tiêu của bạn</p></div>
+          </div>
+
+          <label for="styleTarget">Mục tiêu văn phong</label>
+          <select id="styleTarget">
+            <option>IELTS Writing Task 2</option>
+            <option>Business Email</option>
+            <option>Academic Essay</option>
+            <option>Casual Conversation</option>
+          </select>
+
+          <label for="targetLevel">Trình độ mục tiêu</label>
+          <select id="targetLevel">
+            <option>B1 (Intermediate)</option>
+            <option selected>B2 (Upper-Intermediate)</option>
+            <option>C1 (Advanced)</option>
+          </select>
+
+          <div class="settings-tip">
+            <span>💡</span>
+            <p><strong>Mẹo nhỏ</strong><br>Hãy gửi cả đoạn văn để AI có thể nhận xét mạch lạc, ngữ pháp và cách dùng từ trong ngữ cảnh.</p>
+          </div>
+          <div class="privacy-note"><span>🔒</span> API key cần được lưu ở máy chủ, không đặt trong mã trình duyệt.</div>
+        </aside>
+
+        <section class="editor-panel panel">
+          <div class="panel-heading editor-heading">
+            <div class="heading-icon">📝</div>
+            <div><h2>Bài viết của bạn</h2><p>Dán bài tiếng Anh cần kiểm tra bên dưới</p></div>
+            <span class="step-label">BƯỚC 1</span>
+          </div>
+
+          <label class="sr-only" for="userText">Nội dung bài viết tiếng Anh</label>
+          <textarea id="userText" maxlength="12000" placeholder="Ví dụ: In my opinion, learning English is important because it can help people find better jobs..."></textarea>
+          <div class="editor-footer">
+            <span id="charCount">0 ký tự</span>
+            <button id="clearButton" class="text-button" type="button">Xóa nội dung</button>
+          </div>
+          <button id="analyzeButton" class="primary-button" type="button">
+            <span>✨</span> Phân tích & sửa bài <span class="button-arrow">→</span>
+          </button>
+          <p class="helper-text">Kết quả bao gồm bản sửa, nhận xét, giải thích lỗi, cách diễn đạt nâng cao và từ vựng.</p>
+          <div id="errorMessage" class="message error-message" role="alert" hidden></div>
+        </section>
+      </div>
+
+      <section id="results" class="results-section" hidden>
+        <div class="results-title">
+          <div><div class="eyebrow">YOUR WRITING REPORT</div><h2>Kết quả phân tích</h2></div>
+          <button id="copyCorrected" class="secondary-button" type="button">Sao chép bản sửa</button>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card original-card">
+            <div class="result-card-heading"><span>📄</span><h3>Văn bản gốc</h3></div>
+            <p id="originalText" class="result-text"></p>
+          </article>
+          <article class="result-card corrected-card">
+            <div class="result-card-heading"><span>✅</span><h3>Văn bản đã sửa & tối ưu</h3></div>
+            <p id="correctedText" class="result-text"></p>
+          </article>
+        </div>
+
+        <article class="result-card">
+          <div class="result-card-heading"><span>💡</span><h3>Nhận xét tổng quan</h3></div>
+          <p id="overallFeedback" class="result-text"></p>
+        </article>
+
+        <article class="result-card">
+          <div class="result-card-heading"><span>🔍</span><h3>Chi tiết lỗi & gợi ý chỉnh sửa</h3></div>
+          <div id="correctionsList" class="corrections-list"></div>
+        </article>
+
+        <article class="result-card">
+          <div class="result-card-heading"><span>🚀</span><h3>Gợi ý viết lại nâng cao</h3></div>
+          <div id="rephrasingList" class="rephrasing-list"></div>
+        </article>
+
+        <article class="result-card">
+          <div class="result-card-heading"><span>📚</span><h3>Từ vựng & cấu trúc hay</h3></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Từ / cụm từ</th><th>Phiên âm</th><th>Nghĩa tiếng Việt</th><th>Ví dụ</th></tr></thead>
+              <tbody id="vocabularyList"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">AI Writing Mentor <span>•</span> Học tốt hơn qua từng lần viết</footer>
+    </main>
+  </div>
+</body>
+</html>
